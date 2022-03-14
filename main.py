@@ -81,6 +81,7 @@ class User:
         self.password = None
         self.all_user.clear()
         self.initial_page()
+
     '''
     bosh menu ga qaytib qolish
     '''
@@ -177,5 +178,6 @@ class User:
     def wrong_pasw(self):
         print("Password should contain at lest 6 characters")
     '''password xato bolganda messeg beradigon funcion'''
+
 
 person = User()
