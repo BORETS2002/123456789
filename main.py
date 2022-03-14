@@ -71,7 +71,7 @@ class User:
             os.system("cls")
             print("This user does not exist")
             self.all_user.clear()
-            self.initial_page()
+            self.inital_paje()
 
     """
     login qismi file da ma'lumoti bor odam kira olishini  yani registerdan o'tkan odam"""
@@ -80,23 +80,73 @@ class User:
         self.login = None
         self.password = None
         self.all_user.clear()
-        self.initial_page()
+        self.inital_paje()
 
     '''
     bosh menu ga qaytib qolish
     '''
 
     def  opdate_login(self):
-        pass
+        if self.user_logget_in():
+            with open(self.file_name, 'r+') as file:
+                text = file.read()
+                new_log = input("new login:").strip()
+                while not self.login_is_correct(new_log):
+                    os.system("cls")
+                    self.wrong_log_msg()
+                    new_log = input("new login:").strip()
+
+                with open(self.file_name, 'w') as file:
+                    file.write(text.replace("login=" + self.login + "|" + "password=" + self.password,"login=" + new_log + "|" + "password=" + self.password))
+                os.system('cls')
+                print("login ozgardi ! ")
+                self.log_out()
+
     '''
     loginni yangilash qismi'''
 
     def opdate_password(self):
-        pass
+        if self.user_logget_in():
+            with open(self.file_name, 'r+') as file:
+                text = file.read()
+                new_pass = input("new password:").strip()
+                while not self.password_is_correct(new_pass):
+                    os.system("cls")
+                    self.wrong_pasw()
+                    new_pass = input("new password:").strip()
+
+                with open(self.file_name, 'w') as file:
+                    file.write(text.replace("login="+self.login+"|"+"password="+self.password, "login="+self.login+"|"+"password="+new_pass))
+                    self.__init__()
     '''passwordni yangilash qismi'''
 
     def delete_account(self):
-        pass
+        new = input("delete qilishga aminmisiz: [Y/N] ").lower()
+        os.system('cls')
+        while new not in ['y', 'n']:
+            new = input('Siz [Y/N] ni tanlashingiz kerak: ').lower()
+            os.system('cls')
+        if new == 'n':
+            self.log_out()
+        else:
+            man = self.login
+            new_ = []
+            with open(self.file_name) as file:
+                for i in file.read().split():
+                    if man not in i:
+                        new_.append(i)
+            with open(self.file_name, 'w') as file:
+                for i in new_:
+                    file.write(i)
+                    file.write('\n')
+
+            new_.clear()
+            os.system("cls")
+            self.login = None
+            self.password = None
+            self.all_user = []
+            print("accaount is deleted seccesfully")
+            self.log_out()
     '''bor accauntni butunley o'chirib yuborish'''
 
     def welcome_msg(self):
@@ -177,6 +227,7 @@ class User:
 
     def wrong_pasw(self):
         print("Password should contain at lest 6 characters")
+
     '''password xato bolganda messeg beradigon funcion'''
 
 
