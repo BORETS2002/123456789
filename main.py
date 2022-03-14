@@ -132,7 +132,7 @@ class User:
     '''file dan hamma foydalanuvchilarni olish qismi'''
 
     def show_all_user(self):
-        pass
+        [print(user_) for user_ in self.all_user]
         """
         hamma userlarni txt file dan yigib oluvchi funcion
         :return: qaytarmaydi
@@ -150,5 +150,5 @@ class User:
     '''foydalanuvhi registerdan otkandan keyin chiqadigon menyusini messegi '''
 
     def wrong_pasw(self):
-        pass
+        print("Password should contain at lest 6 characters")
     '''password xato bolganda messeg beradigon funcion'''
