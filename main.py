@@ -102,8 +102,8 @@ class User:
     def user_exists(self):
         '''foydalanuvhi bormi yoqmi tekshiruvchi funcion'''
 
-    def user_logget_in(self):
-        pass
+    def user_logget_in(self):  #
+        return self.login is not None and self.password is not None
     '''foydalanuvchi tarmoqdami yoqmi tekshiruvhi'''
 
     def menyu_msg(self):
