@@ -178,7 +178,8 @@ class User:
     '''passwordni miqdorini tekshiradigon qismi'''
 
     def wrong_log_msg(self):
-        pass
+        print("login or Invalit!")
+        print("login should contain at least 3 charactes, [a-z] and/or[0-9]")
     '''login bilan hato yuz berganda chiqadigon messeg'''
 
     def file_empty(self):
@@ -222,7 +223,14 @@ class User:
     '''foydalanuvchi tarmoqdami yoqmi tekshiruvhi'''
 
     def menyu_msg(self):
-        pass
+        return """
+                  Menu:
+                  [1] log Out
+                  [2] Change login
+                  [3] Change Password
+                  [4] Delete account
+                  [5] Exit
+                  """
     '''foydalanuvhi registerdan otkandan keyin chiqadigon menyusini messegi '''
 
     def wrong_pasw(self):
