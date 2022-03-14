@@ -8,13 +8,32 @@ import sys
 
 class User:
     def __init__(self, user_file_name="user2.txt"):
+        os.system("cls")
         self.login = None
         self.password = None
         self.file_name = user_file_name
         self.all_user = []
+        self.inital_paje()
+
 
     def inital_paje(self):
-        pass
+        enter_sys = input(self.welcome_msg()).strip()
+        while not self.file_empty() and enter_sys not in ['1', '2', '3']:
+            os.system("cls")
+            print("Invalid input ! ")
+            enter_sys = input(self.welcome_msg()).strip()
+
+        while self.file_empty() and enter_sys not in ['1', '2']:
+            os.system("cls")
+            print("Invalid input ! ")
+            enter_sys = input(self.welcome_msg()).strip()
+
+        if enter_sys == "1":
+            self.register()
+        elif not self.file_empty() and enter_sys == "2":
+            self.log_in()
+        else:
+            sys.exit()
     """
     boshlangich kirish qismi
     """
@@ -138,10 +157,13 @@ class User:
         :return: qaytarmaydi
         """
 
-    def user_exists(self):
-        '''foydalanuvhi bormi yoqmi tekshiruvchi funcion'''
+    def user_exists(self, login_: str, password_: str) -> bool:
+        for user__ in self.all_user:
+            if user__["login"] == login_ and user__["password"] == password_:
+                return True
+        return False
 
-    def user_logget_in(self):  #
+    def user_logget_in(self):
         return self.login is not None and self.password is not None
     '''foydalanuvchi tarmoqdami yoqmi tekshiruvhi'''
 
@@ -152,3 +174,5 @@ class User:
     def wrong_pasw(self):
         print("Password should contain at lest 6 characters")
     '''password xato bolganda messeg beradigon funcion'''
+
+person = User()
