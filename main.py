@@ -9,6 +9,7 @@ class User:
         self.login = None
         self.password = None
         self.file_name = user_file_name
+        self.all_user = []
 
     def inital_paje(self):
         pass
@@ -74,8 +75,21 @@ class User:
         return text == ""
     '''file boshligini tekshruvchi qismi'''
 
-    def get_all_user(self):
-        pass
+    def get_all_user(self):  # hamma foydalanuvchilarni olish
+        with open("user2.txt") as file:
+            users = file.read()
+            for row in users.split():
+                self.all_user.append(
+                    {
+                        "name": row.split("|")[0].split("=")[1],
+                        "full_name": row.split("|")[1].split("=")[1],
+                        "age": row.split("|")[2].split("=")[1],
+                        "login": row.split("|")[3].split("=")[1],
+                        "password": row.split("|")[4].split("=")[1]
+
+                    }
+                )
+
     '''file dan hamma foydalanuvchilarni olish qismi'''
 
     def show_all_user(self):
