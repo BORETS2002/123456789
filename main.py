@@ -3,6 +3,8 @@
 Tarmoqdan royhatdan o'tish login passwordlarini kiritib tarmoqqa kirish
 va login passwordlarini yangilash hamda uchirib tashlash
 """
+import os
+import sys
 
 class User:
     def __init__(self, user_file_name="user2.txt"):
@@ -25,10 +27,33 @@ class User:
     def register(self):
         pass
 
-    """registratsia qismi ismi familyasi yishi logini va passwordi bolish krk"""
+    """registratsia qismi ismi familyasi yoshi logini va passwordi bolish krk"""
 
     def log_in(self):
-        pass
+        if self.user_logget_in():
+            return
+        os.system("cls")
+        tmp_login = input("Your login: ").strip()
+        tmp_pasword = input("Your password: ").strip()
+
+        while not self.login_is_correct(tmp_login) or not self.password_is_correct(tmp_pasword):
+            os.system("cls")
+            self.wrong_log_msg()
+            tmp_login = input("Your login: ").strip()
+            tmp_pasword = input("Your password: ").strip()
+
+        # fayldan hamma userlarni oqib olish kereak
+        self.get_all_user()
+        if self.user_exists(tmp_login, tmp_pasword):
+            print("You are logged in successfully")
+            self.login = tmp_login
+            self.password = tmp_pasword
+        else:
+            os.system("cls")
+            print("This user does not exist")
+            self.all_user.clear()
+            self.initial_page()
+
     """
     login qismi file da ma'lumoti bor odam kira olishini  yani registerdan o'tkan odam"""
 
@@ -52,12 +77,26 @@ class User:
     '''bor accauntni butunley o'chirib yuborish'''
 
     def welcome_msg(self):
-        pass
+        if self.file_empty():
+            return """ 
+            Please select one of the options below:
+
+            [1] Register
+            [2] Exit  
+            """
+        else:
+            return """
+            Please select one of the options below:
+
+            [1] Register
+            [2] Login
+            [3] Exit  
+            """
     '''saitdan hechkim royhatdan otmagan bolsa va otgan bolsa chiqadigon  messeg qismi'''
 
     @staticmethod
     def login_is_correct(login_: str) -> bool:
-        pass
+        return len(login_) > 2 and login_.isalnum()
     '''loginni raqam va harfga tekshiradigon qismi va miqdoriga'''
 
     @staticmethod

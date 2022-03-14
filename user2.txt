@@ -1,0 +1,2 @@
+name=sodiqjon|full_name=oxunov|age=27|login=SASHA|password=121212
+name=ogabek|full_name=sherakhmatov|age=19|login=flutter|password=password
