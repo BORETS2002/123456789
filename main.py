@@ -58,7 +58,10 @@ class User:
     login qismi file da ma'lumoti bor odam kira olishini  yani registerdan o'tkan odam"""
 
     def log_out(self):
-        pass
+        self.login = None
+        self.password = None
+        self.all_user.clear()
+        self.initial_page()
     '''
     bosh menu ga qaytib qolish
     '''
@@ -141,7 +144,7 @@ class User:
     def user_exists(self):
         '''foydalanuvhi bormi yoqmi tekshiruvchi funcion'''
 
-    def user_logget_in(self):  #
+    def user_logget_in(self):
         return self.login is not None and self.password is not None
     '''foydalanuvchi tarmoqdami yoqmi tekshiruvhi'''
 
