@@ -69,7 +69,9 @@ class User:
     '''login bilan hato yuz berganda chiqadigon messeg'''
 
     def file_empty(self):
-        pass
+        with open(self.file_name) as file:
+            text = file.read()
+        return text == ""
     '''file boshligini tekshruvchi qismi'''
 
     def get_all_user(self):
