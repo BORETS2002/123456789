@@ -1,10 +1,10 @@
-
 """
 Tarmoqdan royhatdan o'tish login passwordlarini kiritib tarmoqqa kirish
 va login passwordlarini yangilash hamda uchirib tashlash
 """
 import os
 import sys
+
 
 class User:
     def __init__(self, user_file_name="user2.txt"):
@@ -14,7 +14,6 @@ class User:
         self.file_name = user_file_name
         self.all_user = []
         self.inital_paje()
-
 
     def inital_paje(self):
         enter_sys = input(self.welcome_msg()).strip()
@@ -34,17 +33,97 @@ class User:
             self.log_in()
         else:
             sys.exit()
+
     """
     boshlangich kirish qismi
     """
 
     def main_peg(self):
-        pass
+        os.system('cls')
+        menyu_sys = input(self.menyu_msg() + ">>>").strip()
+
+        while menyu_sys not in ["1", "2", "3", "4", "5"]:
+            os.system('cls')
+            print("Invalid input!")
+            menyu_sys = input(self.menyu_msg() + ">>>").strip()
+        os.system('cls')
+        if menyu_sys == "1":
+            self.log_out()
+        if menyu_sys == "2":
+            self.opdate_login()
+        if menyu_sys == "3":
+            self.opdate_password()
+        if menyu_sys == "4":
+            self.delete_account()
+        if menyu_sys == "5":
+            sys.exit()
+
     """
     foydalanuvchi ragistratsiadan o'tkandan keyin chiqadigan menyu"""
 
     def register(self):
-        pass
+        os.system("cls")
+        self.get_all_user()
+        new_ = []
+        name = input("ismingiz:").strip().lower()
+        full_name = input("familyangiz: ").strip().lower()
+        age = input("yoshingiz: ").strip().lower()
+        while not int(age) >= 12:
+            os.system("cls")
+            print("12+ bolish kerak")
+            age = input("yoshingiz: ").strip().lower()
+
+        log_ = input("loginingiz: ").strip().lower()
+        while not self.login_is_correct(log_):
+            os.system("cls")
+            self.wrong_log_msg()
+            log_ = input("loginingiz: ").strip().lower()
+
+        pas_ = input("passwordingiz: ").strip()
+        while not self.password_is_correct(pas_):
+            os.system("cls")
+            self.wrong_pasw()
+            pas_ = input("passwordingiz: ").strip()
+        while self.user_exists(log_, pas_):
+            os.system("cls")
+            print("bunday accaunt bor !!!")
+
+            log_ = input("loginingiz: ").strip().lower()
+            while not self.login_is_correct(log_):
+                os.system("cls")
+                self.wrong_log_msg()
+                log_ = input("loginingiz: ").strip().lower()
+
+            pas_ = input("passwordingiz: ").strip()
+            while not self.password_is_correct(pas_):
+                os.system("cls")
+                self.wrong_pasw()
+                pas_ = input("passwordingiz: ").strip()
+        pas_tshr = input("tasdiqlovchi password: ").strip()
+
+        while pas_tshr != pas_:
+            os.system("cls")
+            print("invalid pasword")
+            pas_ = input("passwordingiz: ")
+            pas_tshr = input("tasdiqlovchi password: ")
+
+        with open(self.file_name) as file:
+            for i in file.read().split():
+                new_.append(i)
+
+            new_.append(f"name={name}|full_name={full_name}|age={age}|login={log_}|password={pas_}")
+
+        with open(self.file_name, 'w') as file:
+            for i in new_:
+                file.write(i)
+                file.write('\n')
+        os.system("cls")
+        self.login = log_
+        self.password = pas_
+        self.get_all_user()
+        print("You're successfully registered.")
+
+        self.main_peg()
 
     """registratsia qismi ismi familyasi yoshi logini va passwordi bolish krk"""
 
@@ -86,7 +165,7 @@ class User:
     bosh menu ga qaytib qolish
     '''
 
-    def  opdate_login(self):
+    def opdate_login(self):
         if self.user_logget_in():
             with open(self.file_name, 'r+') as file:
                 text = file.read()
@@ -97,7 +176,8 @@ class User:
                     new_log = input("new login:").strip()
 
                 with open(self.file_name, 'w') as file:
-                    file.write(text.replace("login=" + self.login + "|" + "password=" + self.password,"login=" + new_log + "|" + "password=" + self.password))
+                    file.write(text.replace("login=" + self.login + "|" + "password=" + self.password,
+                                            "login=" + new_log + "|" + "password=" + self.password))
                 os.system('cls')
                 print("login ozgardi ! ")
                 self.log_out()
@@ -116,8 +196,10 @@ class User:
                     new_pass = input("new password:").strip()
 
                 with open(self.file_name, 'w') as file:
-                    file.write(text.replace("login="+self.login+"|"+"password="+self.password, "login="+self.login+"|"+"password="+new_pass))
+                    file.write(text.replace("login=" + self.login + "|" + "password=" + self.password,
+                                            "login=" + self.login + "|" + "password=" + new_pass))
                     self.__init__()
+
     '''passwordni yangilash qismi'''
 
     def delete_account(self):
@@ -147,6 +229,7 @@ class User:
             self.all_user = []
             print("accaount is deleted seccesfully")
             self.log_out()
+
     '''bor accauntni butunley o'chirib yuborish'''
 
     def welcome_msg(self):
@@ -165,27 +248,32 @@ class User:
             [2] Login
             [3] Exit  
             """
+
     '''saitdan hechkim royhatdan otmagan bolsa va otgan bolsa chiqadigon  messeg qismi'''
 
     @staticmethod
     def login_is_correct(login_: str) -> bool:
         return len(login_) > 2 and login_.isalnum()
+
     '''loginni raqam va harfga tekshiradigon qismi va miqdoriga'''
 
     @staticmethod
     def password_is_correct(password_: str) -> bool:
-        pass
+        return len(password_) > 5
+
     '''passwordni miqdorini tekshiradigon qismi'''
 
     def wrong_log_msg(self):
         print("login or Invalit!")
         print("login should contain at least 3 charactes, [a-z] and/or[0-9]")
+
     '''login bilan hato yuz berganda chiqadigon messeg'''
 
     def file_empty(self):
         with open(self.file_name) as file:
             text = file.read()
         return text == ""
+
     '''file boshligini tekshruvchi qismi'''
 
     def get_all_user(self):  # hamma foydalanuvchilarni olish
@@ -220,6 +308,7 @@ class User:
 
     def user_logget_in(self):
         return self.login is not None and self.password is not None
+
     '''foydalanuvchi tarmoqdami yoqmi tekshiruvhi'''
 
     def menyu_msg(self):
@@ -231,6 +320,7 @@ class User:
                   [4] Delete account
                   [5] Exit
                   """
+
     '''foydalanuvhi registerdan otkandan keyin chiqadigon menyusini messegi '''
 
     def wrong_pasw(self):
@@ -240,3 +330,4 @@ class User:
 
 
 person = User()
+person.main_peg()

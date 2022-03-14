@@ -1,2 +1,4 @@
 name=sodiqjon|full_name=oxunov|age=27|login=SASHA|password=121212
 name=ogabek|full_name=sherakhmatov|age=19|login=flutter|password=password
+name=adxam|full_name=olimov|age=23|login=assas|password=2323ad
+name=doniyor|full_name=qayumov|age=13|login=doni13|password=doni123
